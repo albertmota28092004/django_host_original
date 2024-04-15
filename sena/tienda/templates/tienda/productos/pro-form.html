@@ -1,0 +1,64 @@
+{% extends 'tienda/base.html' %}
+{% load static %}
+{% block title %} Crear Producto {% endblock %}
+{% block contenedor %}
+
+
+{% if id %}
+    <h3>Editar: {{ data.id }}</h3>
+{% else %}
+    <h3 class="m-3">Crear: </h3>
+{% endif %}
+
+<div class="formulario_contenedor">
+    <form method="post" action="{% url 'tienda:productos_guardar' %}" class="forms" enctype="multipart/form-data">
+    {% csrf_token %}
+            <div class="mb-3" hidden>
+                <label class="form-label label_formularios">ID del Producto:</label>
+                <input class="form-control input_formularios" type="text" name="id" value="{{ data.id }}" readonly>
+            </div>
+            <div class="mb-3">
+                <label class="form-label label_formularios">Nombre del Producto:</label>
+                <input type="text" class="form-control input_formularios" placeholder="Nombre" name="nombre" value="{{ data.nombre }}" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label label_formularios">Descripción del Producto:</label>
+                <input type="text" class="form-control input_formularios" placeholder="Descripción" name="descripcion" value="{{ data.descripcion }}" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label label_formularios">Precio del Producto:</label>
+                <input type="number" class="form-control input_formularios" placeholder="Precio" name="precio" value="{{ data.precio }}" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label label_formularios">Fecha del Producto:</label>
+                <input type="date" class="form-control input_formularios" placeholder="Fecha de la Compra" name="fecha_compra" value="{{ data.fecha_compra|date:'Y-m-d' }}" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label label_formularios">Stock del Producto:</label>
+                <input type="number" class="form-control input_formularios" placeholder="Stock" name="stock" value="{{ data.stock }}" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label label_formularios">Foto del Producto:</label>
+                <input type="file" class="form-control input_formularios" placeholder="Foto" name="foto_producto" value="{{ data.foto }}" accept="image/*">
+            </div>
+            <div class="mb-3">
+                <label class="form-label label_formularios">Categoría del Producto:</label>
+                <select name="categoria" class="form-control input_formularios" required>
+                    <option value="">Seleccione</option>
+                    {% for c in categoria %}
+                        <option value="{{ c.id }}" {% if data.categoria.id == c.id %}selected=""{% endif %} >{{ c.nombre }}</option>
+                    {% endfor %}
+                </select>
+                <div class="form-text">Recuerda que la categoría es la clasificación de tu producto.</div>
+            </div>
+
+            {% if id %}
+                <button type="submit" class="btn btn-primary enviar_formulario">Actualizar</button>
+            {% else %}
+                <button type="submit" class="btn btn-primary enviar_formulario">Crear</button>
+            {% endif %}
+    </form>
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,61 @@
+{% extends 'tienda/base2.html' %}
+{% load static %}
+{% block title %}Categorías{% endblock %}
+{% block contenedor %}
+
+<style>
+    body {
+        background-color: #f8f9fa !important;
+    }
+
+    .table-custom {
+        background-color: #8F82B7;
+        color: white;
+    }
+
+    .table-custom th,
+    .table-custom td {
+        border-color: #ffffff;
+    }
+</style>
+
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Tabla de Productos</h1>
+        <div class="table-responsive">
+            <table class="table table-bordered table-custom">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Descripción</th>
+                        <th scope="col">Precio</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>Producto 1</td>
+                        <td>Descripción del Producto 1</td>
+                        <td>$50.00</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">2</th>
+                        <td>Producto 2</td>
+                        <td>Descripción del Producto 2</td>
+                        <td>$40.00</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">3</th>
+                        <td>Producto 3</td>
+                        <td>Descripción del Producto 3</td>
+                        <td>$60.00</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
+
+
+{% endblock %}

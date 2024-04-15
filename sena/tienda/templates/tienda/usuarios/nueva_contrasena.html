@@ -1,0 +1,89 @@
+{% extends 'tienda/base2.html' %}
+{% load static %}
+
+{% block contenedor %}
+<style>
+    body {
+    background-image: url('{% static 'tienda/img/banner_inicio.jpg' %}') !important;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+    }
+
+    .contenedor__recuperar_contrasena {
+    padding: 20px;
+    background-color: white;
+    position: absolute;
+    border-radius: 20px; text-align: center;
+    margin-left: 550px;
+    margin-top: 100px;
+    }
+
+    .entrar {
+    background-color: #8F82B7 !important;
+    color: white;
+    text-align: center;
+    margin-top: 30px;
+    }
+
+    .entrar:hover{
+    background-color: #FFFFFF;
+    color: #8F82B7;
+    border: 2px solid #8F82B7;
+    transition: all 300ms;
+    }
+
+    form {
+    display: flex;
+    flex-direction: column
+    }
+
+    input {
+    margin-top: 30px;
+    }
+
+    button {
+    padding: 10px 40px;
+    margin-top: 20px; /* Espacio entre los botones */
+    border: none;
+    background-color: transparent; /* Fondo transparente */
+    color: black; /* Color del texto */
+    cursor: pointer;
+    outline: none;
+}
+
+/* Estilos para el icono de ojo */
+.bi {
+    display: inline-block; /* Para asegurar que los iconos se muestren correctamente */
+    font-size: 1.2rem; /* Tamaño del icono */
+    margin-right: 5px; /* Espacio entre el icono y el texto */
+}
+
+</style>
+
+<body style="background-image: url('{% static 'tienda/img/banner_inicio.jpg' %}') !important;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;">
+    <a href="{% url 'tienda:index' %}">
+        <img id="logo" src="{% static 'tienda/img/logo_mascotitas.png' %}" alt="" height="100px" width="100px" >
+    </a>
+
+    <div class="contenedor__recuperar_contrasena">
+        <form action="{% url 'tienda:actualizar_contrasenas' %}" method="post">
+            {% csrf_token %}
+            <h2>Recuperar contraseña</h2>
+            <input type="text" id="usuarioRecuperar" placeholder="Usuario" required name="usuarioRecuperar">
+            <input type="password" id="contrasenaRecuperar" placeholder="Contraseña" required name="contrasenaRecuperar">
+            <input type="password" id="confirmarContrasenaRecuperar" placeholder="Confirmar contraseña" required name="confirmarContrasenaRecuperar">
+            <button class="entrar" type="submit" class="btn" onclick="validarContrasenaRecuperar()">Actualizar contraseña</button>
+        </form>
+    </div>
+
+    <!--<script src="../js/script2.js"></script>-->
+</body>
+
+</html>
+{% endblock %}

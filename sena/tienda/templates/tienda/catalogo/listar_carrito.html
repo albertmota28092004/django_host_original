@@ -1,0 +1,78 @@
+{% load humanize %}
+
+<style>
+        .button-purchase {
+            background: linear-gradient(90deg,
+                    #D17C1F 0%,
+                    #ffb842 54%,
+                    #E6B14C 82%);
+            border: 5px ridge #021429;
+            width: 100px;
+            transition: all 0.2s;
+            border-radius: 50px;
+            font-weight: bold;
+            color: #000000;
+        }
+
+        .button-purchase:hover {
+            background-color: rgba(85, 144, 189, 1);
+            transform: translateY(2px);
+            box-shadow: 0 0 5px #D17C1F;
+            color: white;
+        }
+
+        .button-purchase:active {
+            background-color: rgba(85, 144, 189, 0.8);
+            transform: translateY(4px);
+            box-shadow: 0 0 2px #D17C1F;
+        }
+
+        #producto_carrito {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 10px;
+          margin: 10px 10px;
+          position: relative;
+          overflow-x: hidden;
+        }
+
+        .total_div {
+            box-shadow: 0 3px 25px #9d9d9d;
+            background-color: #FFFFFF;
+            position: sticky;
+            top: 100%;
+            bottom: 0;
+            padding: 10px;
+        }
+</style>
+{% if datos %}
+{% for i in datos %}
+<div id="producto_carrito">
+    <img src="{{ i.foto }}" width= "100px" height= "100px">
+    <div style="margin-left: 10px">
+        <input type="hidden" name="id" value="{{ i.id }}">
+        <input type="hidden" name="precios" value="{{ i.precio }}" style="width:100px;">
+        <h2 style="font-size: 20px; font-weight: bold; margin-right: 200px;">{{ i.nombre }}</h2>
+        <h6 id="subtotal_{{ i.id }}" style="color: #898989;">$ {{ i.subtotal|intcomma }}</h6>
+        <!--<input type="hidden" id="subtotal_memoria_bruto{{ i.id }}" value="{{ total }}">-->
+        <input type="number" min="1" max="{{ i.stock }}" name="cantidades"
+               onchange="actualizar_totales({{ i.id }}, this.value, {{ i.precio }}); actualizar_carrito(`{% url 'tienda:carrito_actualizar' %}`, {{ i.id }}, this.value);"
+               onkeyup="actualizar_totales({{ i.id }}, this.value, {{ i.precio }}); actualizar_carrito(`{% url 'tienda:carrito_actualizar' %}`, {{ i.id }}, this.value);"
+               value="{{ i.cantidad }}"
+               style="border: 2px solid #dadada !important; border: 2px solid black; width: 60px; text-align: center !important; ">
+    </div>
+    <div style="position: absolute; top: 0; right: 5px;">
+        <a href="{% url 'tienda:carrito_eliminar_producto' i.id %}" style="color: black; text-decoration: none;"><i class="bi bi-trash"></i></a>
+    </div>
+</div>
+
+{% endfor %}
+<!--<input type="hidden" id="total_carrito_bruto" value="{{ total }}">-->
+<div class="total_div">
+    <h3 id="total_carrito">Total: $<span>{{ total|intcomma }}</span></h3>
+    <a href="{% url 'tienda:establecer_venta' %}" class="btn btn-primary button-purchase">Pagar</a>
+</div>
+{% else %}
+    <h4 style="margin-left: 15px;">No hay productos en el carrito</h4>
+{% endif %}

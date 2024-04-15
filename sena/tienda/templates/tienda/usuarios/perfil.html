@@ -1,0 +1,78 @@
+{% extends 'tienda/base.html' %}
+{% load static %}
+{% block title %} Perfil {% endblock %}
+{% block contenedor %}
+
+<style>
+  body {
+    background-color: #8f82b7;
+    overflow-x: hidden;
+  }
+
+  .columna_perfil {
+    margin: 20px 0 0 50px;
+    padding: 20px;
+    background-color: black;
+    display: flex;
+    flex-direction: column;
+    width: 240px;
+    text-align: center;
+    color: #FFFFFF;
+    border-radius: 30px 30px 0 0;
+    height: 600px;
+  }
+
+  .imagen_perfil {
+    border-radius: 100px;
+    width: 200px;
+    height: 200px;
+    margin-bottom: 20px !important;
+  }
+
+  .info_perfil {
+    background-color: #FFFFFF;
+    margin-top: 50px;
+    width: 1160px;
+  }
+
+  .contenedor_perfil {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .nombre_perfil {
+    margin-top: 40px;
+    margin-left: 20px;
+    font-size: 50px;
+  }
+
+  .rol_perfil {
+    margin-left: 20px;
+  }
+
+  hr {
+     position: relative;
+     top: 20px;
+     height: 12px;
+     background-color: #000000 !important;
+     margin-bottom: 50px;
+  }
+</style>
+
+<div class="contenedor_perfil">
+  <div class="columna_perfil">
+    <img src="{{ request.session.logueo.foto }}" class="imagen_perfil">
+  </div>
+  <div class="info_perfil">
+    <h1 class="nombre_perfil">{{ request.session.logueo.nombre }}</h1>
+    <h3 class="rol_perfil">{{ request.session.logueo.nombre_rol }}</h3>
+    <hr />
+  </div>
+</div>
+
+
+
+
+
+
+{% endblock %}

@@ -1,0 +1,222 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        +Cotitas - {% block title %} {% endblock %}
+    </title>
+    <link href="{% static 'tienda/css/styles2.css' %}" rel="stylesheet">
+    <link href="{% static 'tienda/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css" />
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'tienda/favicon/apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'tienda/favicon/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'tienda/favicon/favicon-16x16.png' %}">
+    <link rel="manifest" href="{% static 'tienda/favicon/site.webmanifest' %}">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+
+</head>
+
+<body>
+
+{% if request.session.logueo %}
+    <header>
+        <nav class="navbar navbar-expand-lg bg-white sticky-top">
+            <div class="container">
+                <a class="logo_navbar navbar-brand" href="{% url 'tienda:index'  %}"> <img src="{% static 'tienda/img/logo_mascotitas-negro.png' %}" width="90" height="90" alt=""></a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav justify-content-center iconos_navbar">
+                        {% if request.session.logueo.nombre_rol != "Usuario" %}
+                            <li class="nav-item">
+                                <a class="nav-link" aria-current="page" href="{% url 'tienda:catalogo' 'no'  %}">
+                                    <div style="text-align: center;">
+                                        <i class="bi bi-shop-window" style="font-size: 40px; padding-top: -20px !important; position: relative; "></i>
+                                        <h6 style="font-size: 15px;">Catálogo</h6>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" aria-current="page" href="{% url 'tienda:categorias' %}">
+                                    <div style="text-align: center;">
+                                        <i class="bi bi-bookmark-fill" style="font-size: 40px; padding-top: -20px !important; position: relative; "></i>
+                                        <h6 style="font-size: 15px;">Categorías</h6>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" aria-current="page" href="{% url 'tienda:citas' %}">
+                                    <div style="text-align: center;">
+                                        <i class="bi bi-calendar-check-fill" style="font-size: 40px; padding-top: -20px !important; position: relative; "></i>
+                                        <h6 style="font-size: 15px;">Citas</h6>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" aria-current="page" href="{% url 'tienda:servicios' %}">
+                                    <div style="text-align: center;">
+                                        <i class="bi bi-scissors" style="font-size: 40px; padding-top: -20px !important; position: relative; "></i>
+                                        <h6 style="font-size: 15px;">Servicios</h6>
+                                    </div>
+                                </a>
+
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" aria-current="page" href="{% url 'tienda:pedidos' %}">
+                                    <div style="text-align: center;">
+                                        <i class="bi bi-clipboard2-check" style="font-size: 40px; padding-top: -20px !important; position: relative; "></i>
+                                        <h6 style="font-size: 15px;">Pedidos</h6>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" aria-current="page" href="{% url 'tienda:productos' %}">
+                                    <div style="text-align: center;">
+                                        <i class="bi bi-basket2-fill" style="font-size: 40px; padding-top: -20px !important; position: relative; "></i>
+                                        <h6 style="font-size: 15px;">Productos</h6>
+                                    </div>
+                                </a>
+
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" aria-current="page" href="{% url 'tienda:usuarios' %}">
+                                    <div style="text-align: center;">
+                                        <i class="bi bi-person-fill" style="font-size: 40px; padding-top: -20px !important; position: relative; "></i>
+                                        <h6 style="font-size: 15px;">Usuarios</h6>
+                                    </div>
+                                </a>
+
+                            </li>
+                        {% else %}
+                            <li class="nav-item">
+                                <a class="nav-link" aria-current="page" href="{% url 'tienda:citas_formulario' %}">Agendar cita</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" aria-current="page" href="{% url 'tienda:catalogo' 'no'  %}">Catalogo</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </div>
+                <div style="margin-right: -100px">
+                    <ul class="navbar-nav me-auto" >
+                        <li class="nav-item">
+                          <a class="nav-link mr-5 position-relative" type="button" aria-controls="offcanvasRight" style="margin-top: 3px;" onclick="javascript:ver_carrito(`{% url 'tienda:carrito_listar' %}`);">
+                              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                        {{ request.session.cantidad_productos|default:0 }}
+                                  <span class="visually-hidden">productos</span>
+                              </span>
+                              <i style="color: black !important; font-size: 50px; " class="bi bi-cart4"></i>
+                          </a>
+                        </li>
+                        <li class="nav-item dropdown dropstart" style="">
+                            <a id="barra" class="navbar-brand" href="#" role="button"
+                               data-bs-toggle="dropdown" style="z-index:1; margin-left: 20px;" width="100px">
+                                <img src="{{ request.session.logueo.foto }}" width="90px" height="90px" style="border-radius:100px; ">
+                            </a>
+                            <ul class="dropdown-menu menu_usuario">
+                                <li><h6 style="margin-left: 10px;">{{ request.session.logueo.nombre }} </h6></li>
+                                <li><h6 style="font-size: 20px; text-align: center;">{% if request.session.logueo.nombre_rol == "Administrador" %}{{ request.session.logueo.nombre_rol }} {% endif %}</h6></li>
+                                {% if request.session.logueo.nombre_rol == "Usuario" %}
+                                    <li><a href="{% url 'tienda:mis_compras' %}" class="btn btn-success botones_usuario">Mis compras</a></li>
+                                    <li><a href="{% url 'tienda:mis_citas' %}" class="btn btn-success botones_usuario">Mis citas</a></li>
+                                {% endif %}
+                                <li><a href="{% url 'tienda:ver_perfil' %}" class="btn btn-success botones_usuario">Ver perfil</a></li>
+                                <li><a href="{% url 'tienda:usuarios_editar' request.session.logueo.id %}" class="btn btn-success botones_usuario" >Editar usuario</a></li>
+                                <li><a href="{% url 'tienda:logout' %}" class="btn btn-success botones_usuario">Cerrar sesión</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+{% endif %}
+{% if messages %}
+{% for message in messages %}
+<div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} alert-dismissible"
+     role="alert">
+    {{ message }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endfor %}
+{% endif %}
+
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasRightLabel">Carrito de compras ({{ request.session.cantidad_productos|default:0 }})</h5>
+        <span id="loading_cc" class="d-none">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+        </span>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body" id="respuesta_carrito" style="padding: 0;">
+        <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+</div>
+
+{% block contenedor %}
+{% endblock %}
+
+<!---------------- Modales ---------------->
+
+
+<!-- Offcanvas Sidebar -->
+<div class="offcanvas offcanvas-start" id="demo">
+    <div class="offcanvas-header">
+      <h1 class="offcanvas-title">Menú</h1>
+      <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"></button>
+    </div>
+    <div class="offcanvas-body">
+        <div>
+            <h5>Productos</h5>
+            <ul>
+                <li><a class="nav-link" href="alimento.html">Alimento</a></li>
+                <li><a class="nav-link" href="delimpieza.html">De limpieza</a></li>
+            </ul>
+        </div>
+        <h5><a class="nav-link" href="servicios.html">Servicios</a></h5>
+        <div>
+            <h5>Quiénes somos</h5>
+            <ul>
+                <li><a class="nav-link" href="nuestroequipo.html">Nuestro equipo</a></li>
+                <li><a class="nav-link" href="historia.html">Historia</a></li>
+                <li><a class="nav-link" href="nuestroequipo.html">Nuestro equipo</a></li>
+            </ul>
+        </div>
+        <h5><a class="nav-link" href="contactanos.html">Contáctanos</a></h5>
+    </div>
+  </div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="{% static 'tienda/js/bootstrap.bundle.min.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
+    <script>
+        Fancybox.bind('[data-fancybox="gallery"]', {
+            //
+        });
+    </script>
+      <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+      <script>
+        AOS.init();
+      </script>
+<script src="{% static 'tienda/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'tienda/js/script.js' %}"></script>
+
+</body>
+</html>

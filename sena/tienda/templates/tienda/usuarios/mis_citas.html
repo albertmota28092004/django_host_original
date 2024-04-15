@@ -1,0 +1,27 @@
+{% extends 'tienda/base.html' %}
+{% load static %}
+{% block title %}Mis ventas{% endblock %}
+{% block contenedor %}
+
+<h1>Mis citas</h1>
+
+{% if data %}
+    <table class="table table-hover m-3">
+        <tr>
+            <th>ID</th>
+            <th>Fecha</th>
+            <th>Servicio</th>
+            <th>Precio</th>
+        </tr>
+        {% for c in data %}
+        <tr>
+            <td>{{ c.id }}</td>
+            <td>{{ c.fecha_hora }}</td>
+            <td>{{ c.servicio }}</td>
+            <td>{{ c.precio }}</td>
+        </tr>
+    {% endfor %}
+    </table>
+{% endif %}
+
+{% endblock %}

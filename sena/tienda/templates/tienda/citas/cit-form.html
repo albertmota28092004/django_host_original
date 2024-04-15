@@ -1,0 +1,63 @@
+{% extends 'tienda/base.html' %}
+{% load static %}
+{% block title %} Crear Cita {% endblock %}
+{% block contenedor %}
+
+
+{% if id %}
+    <h3>Editar: {{ data.id }}</h3>
+{% else %}
+    <h3 class="m-3">Crear: </h3>
+{% endif %}
+
+<div class="formulario_contenedor">
+    <form method="post" action="{% url 'tienda:citas_guardar' %}" class="forms">
+    {% csrf_token %}
+    <div class="mb-3" hidden>
+        <label class="form-label label_formularios">ID de la Cita:</label>
+        <input class="form-control input_formularios" type="text" name="id" value="{{ data.id }}" readonly>
+    </div>
+    <div class="mb-3">
+        <label class="form-label label_formularios">Fecha de la Cita:</label>
+        <input type="datetime-local" class="form-control input_formularios" placeholder="Fecha de la Compra" name="fecha_hora" value="{{ data.fecha_hora|date:'Y-m-d' }}" required>
+    </div>
+     <div class="mb-3">
+         <label class="form-label label_formularios">Servicio de la Cita:</label>
+         <select name="servicio" class="form-control input_formularios" required>
+            <option value="">Seleccione:</option>
+            {% for s in servicio %}
+                <option value="{{ s.id }}" {% if data.servicio.id == s.id %}selected=""{% endif %}>{{ s.nombre }}</option>
+            {% endfor %}
+         </select>
+         <div class="form-text">Recuerda que la categoría es la clasificación de tu producto.</div>
+     </div>
+     <div class="mb-3">
+         <label class="form-label label_formularios">Precio de la Cita:</label>
+         <input type="number" class="form-control input_formularios" placeholder="Precio" name="precio" value="{{ data.precio }}" required>
+     </div>
+    <div class="mb-3">
+        {% if request.session.logueo.rol == 3 %}
+            <label class="form-label label_formularios" hidden>Cliente de la Cita:</label>
+            <input type="text" class="form-control input_formularios" name="usuario" placeholder="{{ request.session.logueo.nombre }}" value="{{ request.session.logueo.id }}" required readonly hidden>
+        {% else %}
+            <label class="form-label label_formularios">Cliente de la Cita:</label>
+            <select name="usuario" class="form-control input_formularios" required>
+                <option value="">Seleccione:</option>
+                {% for u in usuario %}
+                    <option value="{{ u.id }}" {% if data.usuario.id == u.id %}selected=""{% endif %}>{{ u.nombre }}</option>
+                {% endfor %}
+            </select>
+        {% endif %}
+    </div>
+    <br>
+
+            {% if id %}
+                <button type="submit" class="btn btn-primary enviar_formulario">Actualizar</button>
+            {% else %}
+                <button type="submit" class="btn btn-primary enviar_formulario">Crear</button>
+            {% endif %}
+</form>
+</div>
+
+
+{% endblock %}

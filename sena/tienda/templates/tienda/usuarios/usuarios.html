@@ -1,0 +1,74 @@
+{% extends 'tienda/base.html' %}
+{% load static %}
+{% block title %}Usuarios{% endblock %}
+{% block contenedor %}
+
+<a class="btn btn-light m-2 crear_formulario" href="{% url 'tienda:usuarios_formulario' %}" ><i class="bi bi-plus-lg" style="font-size: 23px;"></i></a>
+
+<table class="tablas_modulos table table-striped">
+    <thead class="encabezados_tablas">
+        <th>ID</th>
+        <th>Foto</th>
+        <th>Nombre</th>
+        <th>Apellido</th>
+        <th>Nickname</th>
+        <th>Password</th>
+        <th>Rol</th>
+        <th>Acciones</th>
+        <th>
+            <form class="d-flex" role="search" method="post" action="{% url 'tienda:usuarios_buscar' %}" style="">
+                {% csrf_token %}
+                <a href=""><i class="btn btn-dark bi bi-arrow-counterclockwise" style="color: white;"></i></a>
+                <input class="form-control buscar_tablas" type="search" placeholder="Buscar" aria-label="Search" name="buscar"
+                       value="{{ buscado }}">
+                <button class="btn btn-dark" type="submit"><i class="bi bi-search"></i></button>
+            </form>
+        </th>
+    </thead>
+    {% if data %}
+        {% for u in data %}
+        <tr>
+            <td>{{ u.id }}</td>
+            <td class="portfolio-item image-zoom">
+                <a href="{{ u.foto.url }}" data-fancybox="gallery">
+                    <img class="img-fluid img-portfolio" alt="Panning picture #1" src="{{ u.foto.url }}" width="100px">
+                </a>
+            </td>
+            <td>{{ u.nombre }}</td>
+            <td>{{ u.apellido }}</td>
+            <td>{{ u.nick }}</td>
+            <td>{{ u.password }}</td>
+            <td>{{ u.rol }}</td>
+            <td>
+                <a href="{% url 'tienda:usuarios_editar' u.id %}" class="btn btn-info"><i class="bi bi-pencil-fill"></i></a>
+                <a href="javascript:confirmar_eliminar('{{ u.id }}', '{% url 'tienda:usuarios_eliminar' u.id %}');" class="btn btn-danger"><i class="bi bi-trash3-fill"></i></a>
+            </td>
+            <td></td>
+        </tr>
+        {% endfor %}
+    {% else %}
+        <td>No hay registros...</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    {% endif %}
+</table>
+<script>
+    function confirmar_eliminar(id, url) {
+        if (confirm("¿Estás seguro de que deseas eliminar este pedido?")) {
+            window.location.href = url;
+        }
+    }
+
+    $(document).ready(function() {
+        $('#tabla-categorias').DataTable();
+    });
+</script>
+</body>
+</html>
+
+{% endblock %}

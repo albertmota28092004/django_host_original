@@ -1,0 +1,57 @@
+{% extends 'tienda/base.html' %}
+{% load static %}
+{% block title %}Servicios{% endblock %}
+{% block contenedor %}
+
+<a class="btn btn-light m-2 crear_formulario" href="{% url 'tienda:servicios_formulario' %}" ><i class="bi bi-plus-lg" style="font-size: 23px;"></i></a>
+
+<table class="tablas_modulos table table-striped">
+    <thead class="encabezados_tablas">
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Descripción</th>
+        <th>Acciones</th>
+        <th>
+            <form class="d-flex" role="search" method="post" action="{% url 'tienda:servicios_buscar' %}" style="">
+                {% csrf_token %}
+                <a href=""><i class="btn btn-dark bi bi-arrow-counterclockwise" style="color: white;"></i></a>
+                <input class="form-control buscar_tablas" type="search" placeholder="Buscar" aria-label="Search" name="buscar"
+                       value="{{ buscado }}">
+                <button class="btn btn-dark" type="submit"><i class="bi bi-search"></i></button>
+            </form>
+        </th>
+    </thead>
+    {% if data %}
+        {% for e in data %}
+        <tr>
+            <td>{{ e.id }}</td>
+            <td>{{ e.nombre }}</td>
+            <td>{{ e.descripcion }}</td>
+            <td>
+                <a href="{% url 'tienda:servicios_editar' e.id %}" class="btn btn-info"><i class="bi bi-pencil-fill"></i></a>
+                <a href="javascript:confirmar_eliminar('{{ e.id }}', '{% url 'tienda:servicios_eliminar' e.id %}');" class="btn btn-danger"><i class="bi bi-trash3-fill"></i></a>
+            </td>
+            <td></td>
+        </tr>
+        {% endfor %}
+    {% else %}
+        <td>No hay registros...</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    {% endif %}
+</table>
+<script>
+       function confirmar_eliminar(id, url) {
+            if (confirm("¿Estás seguro de que deseas eliminar este pedido?")) {
+                window.location.href = url;
+            }
+      }
+</script>
+
+</body>
+</html>
+
+{% endblock %}

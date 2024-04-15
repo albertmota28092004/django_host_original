@@ -1,0 +1,77 @@
+{% extends 'tienda/base.html' %}
+{% load static %}
+{% load humanize %}
+{% block title %}Pedidos{% endblock %}
+{% block contenedor %}
+
+<a class="btn btn-light m-2 crear_formulario" href="{% url 'tienda:pedidos_formulario' %}" ><i class="bi bi-plus-lg" style="font-size: 23px;"></i></a>
+
+
+<table class="tablas_modulos table table-striped">
+    <thead class="encabezados_tablas">
+        <th>ID</th>
+        <th>Descripción</th>
+        <th>Fecha</th>
+        <th>Precio</th>
+        <th>Usuario</th>
+        <th>Acciones</th>
+        <th>
+            <form class="d-flex" role="search" method="post" action="{% url 'tienda:pedidos_buscar' %}" style="">
+                {% csrf_token %}
+                <a href=""><i class="btn btn-dark bi bi-arrow-counterclockwise" style="color: white;"></i></a>
+                <input class="form-control buscar_tablas" type="search" placeholder="Buscar" aria-label="Search" name="buscar"
+                       value="{{ buscado }}">
+                <button class="btn btn-dark" type="submit"><i class="bi bi-search"></i></button>
+            </form>
+        </th>
+    </thead>
+    {% if data %}
+        {% for p in data %}
+        <tr>
+            <td>{{ p.id }}</td>
+            <td>{{ p.descripcion }}</td>
+            <td>{{ p.fecha }}</td>
+            <td class="text-end">${{ p.precio|intcomma }}</td>
+            <td>
+                {% if p.usuario.nombre == "Lionel" %}
+                    <button type="button" class="btn btn-primary position-relative">
+                        {{ p.usuario }}
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                            Nuevo
+                            <span class="visually-hidden">unread messages</span>
+                        </span>
+                    </button>
+                {% else %}
+                    {{ p.usuario }}
+                {% endif %}
+            </td>
+
+            <td>
+                <a href="{% url 'tienda:pedidos_editar' p.id %}" class="btn btn-info"><i class="bi bi-pencil-fill"></i></a>
+                <a href="javascript:confirmar_eliminar('{{ p.id }}', '{% url 'tienda:pedidos_eliminar' p.id %}');"
+                   class="btn btn-danger"><i class="bi bi-trash3-fill"></i></a>
+            </td>
+        </tr>
+        {% endfor %}
+    {% else %}
+        <td>No hay registros...</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    {% endif %}
+</table>
+<script>
+    function confirmar_eliminar(id, url) {
+        if (confirm("¿Estás seguro de que deseas eliminar este pedido?")) {
+            window.location.href = url;
+        }
+    }
+</script>
+
+</body>
+</html>
+
+{% endblock %}

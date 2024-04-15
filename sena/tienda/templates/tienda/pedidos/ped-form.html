@@ -1,0 +1,49 @@
+{% extends 'tienda/base.html' %}
+{% load static %}
+{% block title %} Crear Pedido {% endblock %}
+{% block contenedor %}
+
+
+{% if id %}
+    <h3>Editar: {{ data.id }}</h3>
+{% else %}
+    <h3 class="m-3">Crear: </h3>
+{% endif %}
+
+<div>
+    <form method="post" action="{% url 'tienda:pedidos_guardar' %}" class="forms">
+    {% csrf_token %}
+        <div class="mb-3" hidden>
+            <label class="form-label label_formularios">ID de la Cita:</label>
+            <input class="form-control input_formularios" type="text" name="id" value="{{ data.id }}" readonly>
+        </div>
+        <div class="mb-3">
+            <label class="form-label label_formularios">Descripción de la Categoría:</label>
+            <input type="text" class="form-control input_formularios" placeholder="Descripción" name="descripcion" value="{{ data.descripcion }}" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label label_formularios">Fecha de la Cita:</label>
+            <input type="date" class="form-control input_formularios" placeholder="Fecha de la Compra" name="fecha_compra" value="{{ data.fecha_compra|date:'Y-m-d' }}" required>
+        </div>
+        <div class="mb-3">
+             <label class="form-label label_formularios">Precio de la Cita:</label>
+             <input type="number" class="form-control input_formularios" placeholder="Precio" name="precio" value="{{ data.precio }}" required>
+         </div>
+        <div class="mb-3">
+            <label class="form-label label_formularios">Cliente de la Cita:</label>
+            <select name="usuario" class="form-control input_formularios" required>
+                <option value="">Seleccione:</option>
+                {% for u in usuario %}
+                    <option value="{{ u.id }}" {% if data.usuario.id == u.id %}selected=""{% endif %}>{{ u.nombre }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        {% if id %}
+            <button type="submit" class="btn btn-primary enviar_formulario">Actualizar</button>
+        {% else %}
+            <button type="submit" class="btn btn-primary enviar_formulario">Crear</button>
+        {% endif %}
+    </form>
+</div>
+
+{% endblock %}

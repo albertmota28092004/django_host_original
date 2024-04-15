@@ -1,0 +1,53 @@
+{% extends 'tienda/base.html' %}
+{% load static %}
+{% block title %} Crear Usuario {% endblock %}
+{% block contenedor %}
+
+
+{% if id %}
+    <h3>Editar: {{ data.id }}</h3>
+{% else %}
+    <h3 class="m-3">Crear: </h3>
+{% endif %}
+
+<div class="formulario_contenedor">
+    <form method="post" action="{% url 'tienda:usuarios_guardar' %}" enctype="multipart/form-data">
+    {% csrf_token %}
+        <div class="mb-3" hidden>
+            <label class="form-label label_formularios">ID del Usuario:</label>
+            <input class="form-control input_formularios" type="text" name="id" value="{{ data.id }}" readonly>
+        </div>
+        <div class="mb-3">
+            <label class="form-label label_formularios">Nombre del Usuario:</label>
+            <input type="text" class="form-control input_formularios" placeholder="Nombre" name="nombre" value="{{ data.nombre }}" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label label_formularios">Apellido del Usuario:</label>
+            <input type="text" class="form-control input_formularios" placeholder="Apellido" name="apellido" value="{{ data.apellido }}" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label label_formularios">Nombre de Usuario del Usuario:</label>
+            <input type="text" class="form-control input_formularios" placeholder="Nick" name="nick" value="{{ data.nick }}" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label label_formularios">Contraseña del Usuario:</label>
+            <input type="text" class="form-control input_formularios" placeholder="Password" name="password" value="{{ data.password }}" required>
+        </div>
+        <div class="mb-3">
+                <label class="form-label label_formularios">Foto del Producto:</label>
+                <input type="file" class="form-control input_formularios" placeholder="Foto" name="foto_usuario" value="{{ data.foto }}" accept="image/*">
+        </div>
+        <div class="mb-3">
+            <label class="form-label label_formularios">Rol del Usuario:</label>
+            <input type="text" class="form-control input_formularios" placeholder="Rol" name="rol" value="{{ data.rol }}" required>
+        </div>
+
+        {% if id %}
+        <button type="submit" class="btn btn-primary enviar_formulario">Actualizar</button>
+        {% else %}
+        <button type="submit" class="btn btn-primary enviar_formulario">Crear</button>
+        {% endif %}
+</form>
+</div>
+
+{% endblock %}

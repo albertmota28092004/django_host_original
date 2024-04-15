@@ -1,0 +1,37 @@
+{% extends 'tienda/base.html' %}
+{% load static %}
+{% block title %} Crear Categoría {% endblock %}
+{% block contenedor %}
+
+
+{% if id %}
+    <h3>Editar: {{ data.id }}</h3>
+{% else %}
+    <h3 class="m-3">Crear: </h3>
+{% endif %}
+
+<div class="formulario_contenedor">
+        <form method="post" action="{% url 'tienda:categorias_guardar' %}">
+            {% csrf_token %}
+            <div class="mb-3" hidden>
+                <label class="form-label label_formularios">ID de la Categoría:</label>
+                <input class="form-control input_formularios" type="text" name="id" value="{{ data.id }}" readonly>
+            </div>
+            <div class="mb-3">
+                <label class="form-label label_formularios">Nombre de la Categoría:</label>
+                <input type="text" class="form-control input_formularios" placeholder="Nombre" name="nombre" value="{{ data.nombre }}" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label label_formularios">Descripción de la Categoría:</label>
+                <input type="text" class="form-control input_formularios" placeholder="Descripción" name="descripcion" value="{{ data.descripcion }}" required>
+            </div>
+
+            {% if id %}
+                <button type="submit" class="btn btn-primary enviar_formulario">Actualizar</button>
+            {% else %}
+                <button type="submit" class="btn btn-primary enviar_formulario">Crear</button>
+            {% endif %}
+        </form>
+    </div>
+
+{% endblock %}

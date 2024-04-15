@@ -1,0 +1,108 @@
+{% extends 'tienda/base.html' %}
+
+{% load static %}
+{% load humanize %}
+
+{% block title %} Catálogo {% endblock %}
+
+{% block contenedor %}
+<link href="{% static 'tienda/css/styles_catalogo.css' %}" rel="stylesheet">
+
+<body>
+<div class="container text-center">
+    <h3 class="titulo_catalogo">Catálogo de Productos</h3>
+    <div class="row align-items-start">
+        <div class="col col-9">
+            <div class="card contenedor_productos_catalogo">
+                <div class="card-body">
+                    {% for p in productos %}
+                    {% if forloop.first %}
+                    <div class="product-container">
+                        {% endif %}
+                        <div class="flip-card">
+                            <div class="card-container" style="width: 18rem; float:left;">
+                                <div class="product-block">
+                                    <div class="img-container">
+                                        <img src="{{ p.foto.url }}" width="200px" height="200px">
+                                    </div>
+                                    <p style="font-weight: bold;">
+                                        {{ p.nombre }}
+                                    </p>
+                                    <p>
+                                        ${{ p.precio|intcomma }}
+                                    </p>
+                                </div>
+                                <div class="product-block-back">
+                                    <div class="productos_detras">
+                                        <p>
+                                            {{ p.descripcion }}
+                                        </p>
+                                        {% if p.stock <= 0 %}
+                                        <strong class="text-danger">Agotado</strong>
+                                        {% else %}
+                                        <form action="{% url 'tienda:carrito_agregar' %}" method="post" class="formulario_agregar">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="id" value="{{ p.id }}">
+                                            <div>
+                                                <!--<button class="minus" onclick="disminuir()">-</button>-->
+                                                <input class="number-box" type="number" min="1" max="{{ p.stock }}" value="1" size="3"
+                                                   style="text-align: center;" name="cantidad">
+                                                <!--<button class="plus" onclick="aumentar()">+</button>-->
+                                            </div>
+                                            <button type="submit" class="btn btn-primary button-agregar">Agregar</button>
+                                        </form>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {%  if forloop.counter|divisibleby:3 %}
+                    </div>
+                    <div class="product-container">
+                        {% endif %}
+                        {% if forloop.last %}
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="col col-3">
+            <div class="list-group categorias_catalogo" style="">
+                <a href="#"
+                   class="filtros list-group-item list-group-item-action list-group-item-warning active" style="text-align: left; background-color: #FFFFFF !important;">
+                    Filtrar por:
+                </a>
+                <a href="{% url 'tienda:catalogo' 'no' %}?id=0"
+                   class="filtros list-group-item list-group-item-action list-group-item-warning active"
+                   aria-current="true" style="font-weight: bold; background-color: #FFFFFF !important;">
+                    Todos
+                </a>
+                {% for c in categorias %}
+                <a href="{% url 'tienda:catalogo' 'no' %}?id={{ c.id }}"
+                   class="filtros list-group-item list-group-item-action list-group-item-warning {% if request.session.submenu == 0 %}active{% endif %} "
+                   style="font-weight: bold; background-color: #FFFFFF !important;">{{ c.nombre}}</a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function aumentar() {
+        number = document.getElementById("number-box");
+        number.value++;
+        event.preventDefault();
+    }
+
+    function disminuir() {
+        number = document.getElementById("number-box");
+
+        if (number.value > 1) {
+          number.value--;
+          event.preventDefault();
+        }
+    }
+</script>
+</body>
+{% endblock %}
