@@ -21,7 +21,27 @@
     <link rel="icon" type="image/png" sizes="16x16" href="{% static 'tienda/favicon/favicon-16x16.png' %}">
     <link rel="manifest" href="{% static 'tienda/favicon/site.webmanifest' %}">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+    <style>
 
+        #navbarNav {
+            position: absolute;
+        }
+
+        .modulos_navbar {
+            position: relative;
+            font-size: 40px !important;
+            transition: font-size 0.4s ease !important;
+        }
+
+        .modulos_navbar:hover {
+            font-size: 60px !important;
+        }
+
+        .modulos_navbar:hover h6 {
+            transition: none;
+        }
+
+    </style>
 </head>
 
 <body>
@@ -41,49 +61,54 @@
                             <li class="nav-item">
                                 <a class="nav-link" aria-current="page" href="{% url 'tienda:catalogo' 'no'  %}">
                                     <div style="text-align: center;">
-                                        <i class="bi bi-shop-window" style="font-size: 40px; padding-top: -20px !important; position: relative; "></i>
-                                        <h6 style="font-size: 15px;">Catálogo</h6>
+                                        <i class="bi bi-shop-window modulos_navbar" style="font-size: 40px; padding-top: -20px !important; position: relative; ">
+                                            <h6 style="font-size: 15px; ">Catálogo</h6>
+                                        </i>
                                     </div>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" aria-current="page" href="{% url 'tienda:categorias' %}">
                                     <div style="text-align: center;">
-                                        <i class="bi bi-bookmark-fill" style="font-size: 40px; padding-top: -20px !important; position: relative; "></i>
-                                        <h6 style="font-size: 15px;">Categorías</h6>
+                                        <i class="bi bi-bookmark-fill modulos_navbar" style="font-size: 40px; padding-top: -20px !important; position: relative; ">
+                                            <h6 style="font-size: 15px;transition: none;">Categorías</h6>
+                                        </i>
                                     </div>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" aria-current="page" href="{% url 'tienda:citas' %}">
                                     <div style="text-align: center;">
-                                        <i class="bi bi-calendar-check-fill" style="font-size: 40px; padding-top: -20px !important; position: relative; "></i>
-                                        <h6 style="font-size: 15px;">Citas</h6>
+                                        <i class="bi bi-calendar-check-fill modulos_navbar" style="font-size: 40px; padding-top: -20px !important; position: relative; ">
+                                            <h6 style="font-size: 15px;">Citas</h6>
+                                        </i>
                                     </div>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" aria-current="page" href="{% url 'tienda:servicios' %}">
                                     <div style="text-align: center;">
-                                        <i class="bi bi-scissors" style="font-size: 40px; padding-top: -20px !important; position: relative; "></i>
-                                        <h6 style="font-size: 15px;">Servicios</h6>
+                                        <i class="bi bi-scissors modulos_navbar" style="font-size: 40px; padding-top: -20px !important; position: relative; ">
+                                            <h6 style="font-size: 15px;">Servicios</h6>
+                                        </i>
                                     </div>
                                 </a>
-
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" aria-current="page" href="{% url 'tienda:pedidos' %}">
                                     <div style="text-align: center;">
-                                        <i class="bi bi-clipboard2-check" style="font-size: 40px; padding-top: -20px !important; position: relative; "></i>
-                                        <h6 style="font-size: 15px;">Pedidos</h6>
+                                        <i class="bi bi-clipboard2-check modulos_navbar" style="font-size: 40px; padding-top: -20px !important; position: relative; ">
+                                            <h6 style="font-size: 15px;">Pedidos</h6>
+                                        </i>
                                     </div>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" aria-current="page" href="{% url 'tienda:productos' %}">
                                     <div style="text-align: center;">
-                                        <i class="bi bi-basket2-fill" style="font-size: 40px; padding-top: -20px !important; position: relative; "></i>
-                                        <h6 style="font-size: 15px;">Productos</h6>
+                                        <i class="bi bi-basket2-fill modulos_navbar" style="font-size: 40px; padding-top: -20px !important; position: relative; ">
+                                            <h6 style="font-size: 15px;">Productos</h6>
+                                        </i>
                                     </div>
                                 </a>
 
@@ -91,18 +116,31 @@
                             <li class="nav-item">
                                 <a class="nav-link" aria-current="page" href="{% url 'tienda:usuarios' %}">
                                     <div style="text-align: center;">
-                                        <i class="bi bi-person-fill" style="font-size: 40px; padding-top: -20px !important; position: relative; "></i>
-                                        <h6 style="font-size: 15px;">Usuarios</h6>
+                                        <i class="bi bi-person-fill modulos_navbar" style="font-size: 40px; padding-top: -20px !important; position: relative; ">
+                                            <h6 style="font-size: 15px;">Usuarios</h6>
+                                        </i>
                                     </div>
                                 </a>
 
                             </li>
                         {% else %}
                             <li class="nav-item">
-                                <a class="nav-link" aria-current="page" href="{% url 'tienda:citas_formulario' %}">Agendar cita</a>
+                                <a class="nav-link" aria-current="page" href="{% url 'tienda:citas' %}">
+                                    <div style="text-align: center;">
+                                        <i class="bi bi-calendar-check-fill modulos_navbar" style="font-size: 40px; padding-top: -20px !important; position: relative; ">
+                                            <h6 style="font-size: 15px;">Agendar citas</h6>
+                                        </i>
+                                    </div>
+                                </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" aria-current="page" href="{% url 'tienda:catalogo' 'no'  %}">Catalogo</a>
+                                <a class="nav-link" aria-current="page" href="{% url 'tienda:catalogo' 'no'  %}">
+                                    <div style="text-align: center;">
+                                        <i class="bi bi-shop-window modulos_navbar" style="font-size: 40px; padding-top: -20px !important; position: relative; ">
+                                            <h6 style="font-size: 15px;">Catálogo</h6>
+                                        </i>
+                                    </div>
+                                </a>
                             </li>
                         {% endif %}
                     </ul>
